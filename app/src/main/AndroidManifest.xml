@@ -15,7 +15,7 @@
         android:theme="@style/Theme.PizzaApp"
         tools:targetApi="31">
         <activity
-            android:name="com.app.pizzaapp.view.DashboardActivity"
+            android:name="com.app.pizzaapp.view.activity.DashboardActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

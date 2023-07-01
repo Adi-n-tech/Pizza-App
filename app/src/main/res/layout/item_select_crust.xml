@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="selectedCrustId"
+            type="Long" />
+
+        <variable
+            name="crust"
+            type="com.app.pizzaapp.model.Crusts" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:background="@{selectedCrustId==crust.id?@drawable/selected_item_rounded:@drawable/unselected_item_rounded}"
+        android:padding="@dimen/_15sdp"
+        tools:background="@drawable/unselected_item_rounded">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{crust.name}"
+            android:textColor="@{selectedCrustId==crust.id?@color/blue:@color/gray}"
+            android:textSize="@dimen/_9sdp"
+            app:fontFamily="@font/red_hat_bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Hand-tossed" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -10,6 +10,7 @@
     <color name="blue">#2196F3</color>
     <color name="light_blue">#EAF1F6</color>
     <color name="darker_black">#202020</color>
+    <color name="gray">#7E7E7E</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#F6F2F2</color>
     <color name="card_background">#F3FAFF</color>

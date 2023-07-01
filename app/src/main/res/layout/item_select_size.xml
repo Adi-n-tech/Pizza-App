@@ -1,39 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginVertical="@dimen/_5sdp"
-    android:layout_marginEnd="@dimen/_8sdp"
-    android:background="@drawable/selected_item_rounded"
-    android:paddingHorizontal="@dimen/_25sdp"
-    android:paddingVertical="@dimen/_8sdp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/name"
+    <data>
+        <variable
+            name="selectedSizeId"
+            type="Long" />
+        <variable
+            name="size"
+            type="com.app.pizzaapp.model.Sizes" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Regular"
-        android:textColor="@color/darker_black"
-        android:textSize="@dimen/_9sdp"
-        app:fontFamily="@font/red_hat_bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginVertical="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:background="@{selectedSizeId==size.id?@drawable/selected_item_rounded:@drawable/unselected_item_rounded}"
+        tools:background="@drawable/unselected_item_rounded"
+        android:paddingHorizontal="@dimen/_20sdp"
+        android:paddingVertical="@dimen/_8sdp">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_6sdp"
-        android:background="@color/green"
-        android:paddingHorizontal="@dimen/_5sdp"
-        android:paddingVertical="@dimen/_3sdp"
-        android:text="₹ 449"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_9sdp"
-        app:fontFamily="@font/red_hat_bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{size.name}"
+            android:textColor="@{selectedSizeId==size.id?@color/blue:@color/gray}"
+            android:textSize="@dimen/_9sdp"
+            app:fontFamily="@font/red_hat_bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Regular" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@color/green"
+            android:paddingHorizontal="@dimen/_5sdp"
+            android:paddingVertical="@dimen/_3sdp"
+            android:text="@{`\u20B9` + ' ' + size.price}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_9sdp"
+            app:fontFamily="@font/red_hat_bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            tools:text="₹ 449" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

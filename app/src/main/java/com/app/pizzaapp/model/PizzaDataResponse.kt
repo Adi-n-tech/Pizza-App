@@ -7,20 +7,20 @@ data class PizzaDataResponse(
     @SerializedName("name") var name: String? = null,
     @SerializedName("isVeg") var isVeg: Boolean? = null,
     @SerializedName("description") var description: String? = null,
-    @SerializedName("defaultCrust") var defaultCrust: Int? = null,
+    @SerializedName("defaultCrust") var defaultCrust: Long,
     @SerializedName("crusts") var crusts: ArrayList<Crusts> = arrayListOf()
 )
 
 
 data class Sizes(
-    @SerializedName("id") var id: Int? = null,
+    @SerializedName("id") var id: Long,
     @SerializedName("name") var name: String? = null,
-    @SerializedName("price") var price: Int? = null
+    @SerializedName("price") var price: Long
 )
 
 data class Crusts(
-    @SerializedName("id") var id: Int? = null,
+    @SerializedName("id") var id: Long,
     @SerializedName("name") var name: String? = null,
-    @SerializedName("defaultSize") var defaultSize: Int? = null,
+    @SerializedName("defaultSize") var defaultSize: Long,
     @SerializedName("sizes") var sizes: ArrayList<Sizes> = arrayListOf()
 )
