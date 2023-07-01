@@ -1,5 +1,6 @@
 package com.app.pizzaapp.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -38,7 +39,12 @@ class DashboardActivity : AppCompatActivity() {
                 is NetworkResult.Success -> {
                     // -----
                     val response: PizzaDataResponse = it.data as PizzaDataResponse
-                    Toast.makeText(this, response.name, Toast.LENGTH_SHORT).show()
+                    binding.name.text = response.name
+                    binding.description.text = response.description
+                    val vegDrawable = getDrawable(R.drawable.veg_icon)
+                    val nonVegDrawable = getDrawable(R.drawable.non_veg)
+                    binding.vegIcon.setImageDrawable(if (response.isVeg == true) vegDrawable else nonVegDrawable)
+
                 }
                 is NetworkResult.Error -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
