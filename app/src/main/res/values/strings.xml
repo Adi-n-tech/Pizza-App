@@ -3,4 +3,5 @@
     <string name="select_size">Select Size</string>
     <string name="select_crust">Select Crust</string>
     <string name="add_cart">Add To Cart</string>
+    <string name="add">Add</string>
 </resources>

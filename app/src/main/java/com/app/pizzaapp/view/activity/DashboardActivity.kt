@@ -1,5 +1,8 @@
 package com.app.pizzaapp.view.activity
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -16,6 +19,7 @@ import com.app.pizzaapp.view.adaptor.SelectSizeAdapter
 import com.app.pizzaapp.viewmodel.dashboard.DashboardViewModel
 import com.app.template.R
 import com.app.template.databinding.ActivityDashboardBinding
+import com.app.template.databinding.DialogAddCustomPizzaBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,11 +41,11 @@ class DashboardActivity : AppCompatActivity() {
         //----
         observeApiResult()
         //-----
+        binding.btnAddCart.setOnClickListener {
+            showAddToCartDialog()
+        }
         selectCrustAdapter = SelectCrustAdapter(emptyList(), ::onCrustSelection)
-        binding.recyclerSelectCrust.adapter = selectCrustAdapter
-        //-----
         selectSizeAdapter = SelectSizeAdapter(emptyList(), ::onSizeSelection)
-        binding.recyclerSelectSize.adapter = selectSizeAdapter
     }
 
     private fun observeApiResult() {
@@ -61,7 +65,8 @@ class DashboardActivity : AppCompatActivity() {
                         selectCrustAdapter.updateList(data.crusts)
                         selectCrustAdapter.updateList(data.defaultCrust)
                         val defaultCrust = data.crusts.find { it.id == data.defaultCrust }
-                        val defaultSize = defaultCrust?.sizes?.find { it.id == defaultCrust.defaultSize }
+                        val defaultSize =
+                            defaultCrust?.sizes?.find { it.id == defaultCrust.defaultSize }
                         defaultCrust?.sizes?.let { sizes ->
                             selectSizeAdapter.updateList(sizes)
                             defaultSize?.id?.let(selectSizeAdapter::updateList)
@@ -89,5 +94,17 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun onSizeSelection(size: Sizes) {
         selectSizeAdapter.updateList(size.id)
+    }
+
+    private fun showAddToCartDialog() {
+        val dialog = Dialog(this)
+        val binding: DialogAddCustomPizzaBinding =
+            DialogAddCustomPizzaBinding.inflate(layoutInflater)
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(true)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        binding.recyclerSelectCrust.adapter = selectCrustAdapter
+        binding.recyclerSelectSize.adapter = selectSizeAdapter
+        dialog.show()
     }
 }
