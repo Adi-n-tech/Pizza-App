@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.app.pizzaapp.model.Crusts
+import com.app.pizzaapp.model.PizzaCart
 import com.app.pizzaapp.model.PizzaDataResponse
 import com.app.pizzaapp.model.Sizes
 import com.app.pizzaapp.utils.network.NetworkResult
@@ -27,16 +28,19 @@ import kotlinx.coroutines.launch
 class DashboardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDashboardBinding
+    private lateinit var pizzaData: PizzaDataResponse
     private lateinit var selectCrustAdapter: SelectCrustAdapter
     private lateinit var selectSizeAdapter: SelectSizeAdapter
-    private val dashboardViewModelNew by viewModels<DashboardViewModel>()
+    private val dashboardViewModel by viewModels<DashboardViewModel>()
+    private lateinit var selectedCrust: Crusts
+    private lateinit var selectedSize: Sizes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard)
 
         lifecycleScope.launch {
-            dashboardViewModelNew.getPizzaData(this@DashboardActivity)
+            dashboardViewModel.getPizzaData(this@DashboardActivity)
         }
         //----
         observeApiResult()
@@ -49,14 +53,15 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun observeApiResult() {
-        dashboardViewModelNew.apiPizzaData.observe(this) { it ->
+        dashboardViewModel.apiPizzaData.observe(this) { it ->
             when (it) {
                 is NetworkResult.Success -> {
                     binding.progress.visibility = View.GONE
                     binding.dataCard.visibility = View.VISIBLE
                     // -----
-                    val response = it.data as? PizzaDataResponse
+                    val response = it.data
                     response?.let { data ->
+                        pizzaData = data
                         binding.name.text = data.name
                         binding.description.text = data.description
                         val vegDrawable = getDrawable(R.drawable.veg_icon)
@@ -65,8 +70,14 @@ class DashboardActivity : AppCompatActivity() {
                         selectCrustAdapter.updateList(data.crusts)
                         selectCrustAdapter.updateList(data.defaultCrust)
                         val defaultCrust = data.crusts.find { it.id == data.defaultCrust }
+                        if (defaultCrust != null) {
+                            selectedCrust = defaultCrust
+                        }
                         val defaultSize =
                             defaultCrust?.sizes?.find { it.id == defaultCrust.defaultSize }
+                        if (defaultSize != null) {
+                            selectedSize = defaultSize
+                        }
                         defaultCrust?.sizes?.let { sizes ->
                             selectSizeAdapter.updateList(sizes)
                             defaultSize?.id?.let(selectSizeAdapter::updateList)
@@ -87,12 +98,14 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun onCrustSelection(crust: Crusts) {
+        selectedCrust = crust
         selectCrustAdapter.updateList(crust.id)
         selectSizeAdapter.updateList(crust.sizes)
         selectSizeAdapter.updateList(crust.defaultSize)
     }
 
     private fun onSizeSelection(size: Sizes) {
+        selectedSize = size
         selectSizeAdapter.updateList(size.id)
     }
 
@@ -105,6 +118,21 @@ class DashboardActivity : AppCompatActivity() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         binding.recyclerSelectCrust.adapter = selectCrustAdapter
         binding.recyclerSelectSize.adapter = selectSizeAdapter
+        binding.btnAddCart.setOnClickListener {
+            val pizzaCart = PizzaCart(
+                id = "${selectedCrust.id}${selectedSize.id}".toLong(),
+                name = pizzaData.name,
+                isVeg = pizzaData.isVeg,
+                description = pizzaData.description,
+                crustName = selectedCrust.name,
+                sizeName = selectedSize.name,
+                price = selectedSize.price
+            )
+            dashboardViewModel.addPizzaToCart(pizzaCart)
+            dialog.dismiss()
+            Toast.makeText(this, "${pizzaData.name} pizza added to cart !!", Toast.LENGTH_SHORT)
+                .show()
+        }
         dialog.show()
     }
 }

@@ -1,5 +1,9 @@
 package com.app.pizzaapp.di
 
+import android.app.Application
+import android.content.Context
+import androidx.room.Room
+import com.app.pizzaapp.room.db.PizzaCartDatabase
 import com.app.pizzaapp.viewmodel.dashboard.api.DashboardService
 import com.app.pizzaapp.utils.AppConstants
 import com.intuit.sdp.BuildConfig
@@ -51,4 +55,15 @@ object NetworkModule {
     @Provides
     fun provideDashboardService(retrofit: Retrofit): DashboardService =
         retrofit.create(DashboardService::class.java)
+
+    @Provides
+    fun provideContext(application: Application): Context {
+        return application.applicationContext
+    }
+
+    @Singleton
+    @Provides
+    fun providePizzaCartDatabase(application: Application): PizzaCartDatabase {
+        return Room.databaseBuilder(application, PizzaCartDatabase::class.java, "PizzaCartDB").build()
+    }
 }
