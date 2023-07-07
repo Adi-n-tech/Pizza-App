@@ -19,11 +19,11 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Hand-tossed- Medium pizza"
-                android:textStyle="bold"
                 android:textSize="@dimen/_9sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Hand-tossed- Medium pizza" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/decrease_quentity"
@@ -61,6 +61,19 @@
                 app:layout_constraintStart_toEndOf="@id/quantity"
                 app:layout_constraintTop_toBottomOf="@id/name"
                 app:tint="@color/blue" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:textSize="@dimen/_11sdp"
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                app:layout_constraintBottom_toBottomOf="@id/quantity_increase"
+                app:layout_constraintStart_toEndOf="@id/quantity_increase"
+                app:layout_constraintTop_toTopOf="@id/quantity_increase"
+                tools:text="500" />
 
 
             <com.google.android.material.button.MaterialButton

@@ -27,6 +27,7 @@ class CartItemsAdapter(
         val item = list[position]
         holder.itemCartBinding.name.text = "${item.name} - ${item.sizeName} ${item.crustName}"
         holder.itemCartBinding.quantity.text = item.quantity.toString()
+        holder.itemCartBinding.price.text = "₹${item.price * item.quantity} /-"
         holder.itemCartBinding.remove.setOnClickListener {
             onRemoveCartItem(item)
         }

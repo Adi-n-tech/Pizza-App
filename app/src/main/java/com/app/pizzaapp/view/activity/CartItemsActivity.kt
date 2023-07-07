@@ -27,13 +27,16 @@ class CartItemsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cart_items)
 
-        adapter = CartItemsAdapter(emptyList(), ::onRemoveCartItem,::onUpdateQuantity)
+        adapter = CartItemsAdapter(emptyList(), ::onRemoveCartItem, ::onUpdateQuantity)
         binding.recycleCartItems.adapter = adapter
         //----
         cartViewModel.getAllCartItems()
         //-----
         cartViewModel.cartItems.observe(this) {
             adapter.updateList(it)
+            var total: Long = 0
+            it.forEach { total += it.price }
+            binding.totalOrderValue.text = "Total Order Amount - ₹ $total"
             binding.progress.visibility = View.GONE
         }
     }
