@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.pizzaapp.model.Sizes
 import com.app.template.databinding.ItemSelectSizeBinding
 
-class SelectSizeAdapter(var list: List<Sizes>,val onSizeSelection: (Sizes) -> Unit) :
+class SelectSizeAdapter(var list: List<Sizes>, val onSizeSelection: (Sizes) -> Unit) :
 
     RecyclerView.Adapter<SelectSizeAdapter.ViewHolder>() {
 
@@ -33,13 +33,13 @@ class SelectSizeAdapter(var list: List<Sizes>,val onSizeSelection: (Sizes) -> Un
         return list.size
     }
 
-    fun updateList(list: List<Sizes>){
-        this.list=list
+    fun updateList(list: List<Sizes>) {
+        this.list = list
         notifyDataSetChanged()
     }
 
-      fun updateList(selectedSizeId: Long){
-        this.selectedSizeId=selectedSizeId
+    fun updateList(selectedSizeId: Long) {
+        this.selectedSizeId = selectedSizeId
         notifyDataSetChanged()
     }
 

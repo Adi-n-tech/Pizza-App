@@ -20,6 +20,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/empty_cart"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:src="@drawable/empty_cart"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_cart_items"
             android:layout_width="match_parent"
@@ -34,15 +46,15 @@
             android:id="@+id/total_order_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_16sdp"
-            android:textColor="@color/green"
-            android:textStyle="bold"
             android:background="@color/light_blue"
             android:padding="@dimen/_15sdp"
-            tools:text="Total Order Amount - 2000"
+            android:textColor="@color/green"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Total Order Amount - 2000" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

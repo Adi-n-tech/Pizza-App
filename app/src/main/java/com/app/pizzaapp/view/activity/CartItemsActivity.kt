@@ -26,18 +26,25 @@ class CartItemsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cart_items)
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         adapter = CartItemsAdapter(emptyList(), ::onRemoveCartItem, ::onUpdateQuantity)
         binding.recycleCartItems.adapter = adapter
         //----
         cartViewModel.getAllCartItems()
         //-----
         cartViewModel.cartItems.observe(this) {
-            adapter.updateList(it)
-            var total: Long = 0
-            it.forEach { total += it.price }
-            binding.totalOrderValue.text = "Total Order Amount - ₹ $total"
             binding.progress.visibility = View.GONE
+            adapter.updateList(it)
+            if (it.isEmpty()) {
+                binding.emptyCart.visibility = View.VISIBLE
+                binding.totalOrderValue.visibility = View.GONE
+            } else {
+                binding.emptyCart.visibility = View.GONE
+                binding.totalOrderValue.visibility = View.VISIBLE
+                var total: Long = 0
+                it.forEach { total += (it.price * it.quantity) }
+                binding.totalOrderValue.text = "Total Order Amount - ₹ $total"
+            }
         }
     }
 
@@ -49,7 +56,10 @@ class CartItemsActivity : AppCompatActivity() {
 
     private fun onUpdateQuantity(pizza: PizzaCart) {
         CoroutineScope(Dispatchers.IO).launch {
-            cartViewModel.updatePizza(pizza)
+            if (pizza.quantity.toInt() == 0)
+                cartViewModel.deleteCartItem(pizza.id)
+            else
+                cartViewModel.updatePizza(pizza)
         }
     }
 }
