@@ -1,9 +1,12 @@
 package com.app.pizzaapp.view.activity
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -126,7 +129,8 @@ class DashboardActivity : AppCompatActivity() {
                 description = pizzaData.description,
                 crustName = selectedCrust.name,
                 sizeName = selectedSize.name,
-                price = selectedSize.price
+                price = selectedSize.price,
+                quantity = 1
             )
             dashboardViewModel.addPizzaToCart(pizzaCart)
             dialog.dismiss()
@@ -134,5 +138,20 @@ class DashboardActivity : AppCompatActivity() {
                 .show()
         }
         dialog.show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_cart -> {
+                startActivity(Intent(this, CartItemsActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

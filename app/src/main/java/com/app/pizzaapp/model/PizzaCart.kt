@@ -11,5 +11,6 @@ data class PizzaCart(
     var description: String? = null,
     var crustName: String? = null,
     var sizeName: String? = null,
-    var price: Long
+    var price: Long,
+    var quantity: Long
 )
